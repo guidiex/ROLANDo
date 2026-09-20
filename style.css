@@ -1,0 +1,1491 @@
+/* =========================================================
+   ROLANDo · DIGITAL SOUND PAD
+   STYLE.CSS COMPLETO
+   ========================================================= */
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+body {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 16px;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      #404040 0%,
+      #252525 28%,
+      #151515 58%,
+      #080808 100%
+    );
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  user-select: none;
+
+  color: #111;
+}
+
+
+/* =========================================================
+   CHASIS PRINCIPAL
+   ========================================================= */
+
+.sampler {
+  width: min(100%, 760px);
+
+  padding: 10px;
+
+  border: 1px solid #6f6f6f;
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f0f0f0 0%,
+      #d1d1d1 18%,
+      #b6b6b6 48%,
+      #979797 75%,
+      #7d7d7d 100%
+    );
+
+  box-shadow:
+    0 22px 55px rgba(0, 0, 0, 0.65),
+    0 5px 10px rgba(0, 0, 0, 0.45),
+    inset 0 2px 2px rgba(255, 255, 255, 0.85),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+
+  transition:
+    filter 180ms ease,
+    opacity 180ms ease;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.sampler-header {
+  min-height: 68px;
+
+  padding: 10px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  border: 2px solid #303030;
+
+  border-radius: 16px 16px 6px 6px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #292929 0%,
+      #181818 38%,
+      #090909 100%
+    );
+
+  color: #eeeeee;
+
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.08),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.8);
+}
+
+
+/* =========================================================
+   MARCA
+   ========================================================= */
+
+.brand {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.brand strong {
+  font-size: 20px;
+  font-weight: 900;
+  font-style: italic;
+
+  letter-spacing: -1px;
+
+  color: #f3f3f3;
+
+  white-space: nowrap;
+}
+
+.brand span {
+  font-size: 7px;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  color: #888888;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   PANEL ON / RESET / OFF
+   ========================================================= */
+
+.power-panel {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  flex-shrink: 0;
+}
+
+.power-control {
+  min-width: 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 4px;
+
+  font-size: 6px;
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+
+  color: #777777;
+}
+
+
+/* =========================================================
+   BOTONES FÍSICOS REDONDOS
+   ========================================================= */
+
+.power-button,
+.hardware-button {
+  width: 18px;
+  height: 18px;
+
+  padding: 0;
+
+  border: 2px solid #050505;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  outline: none;
+
+  box-shadow:
+    0 3px 4px rgba(0, 0, 0, 0.9),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.25),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.65);
+
+  transition:
+    transform 70ms ease,
+    box-shadow 100ms ease,
+    background 100ms ease,
+    opacity 150ms ease;
+}
+
+.power-button:active,
+.hardware-button:active {
+  transform: translateY(2px);
+}
+
+
+/* =========================================================
+   ON
+   ========================================================= */
+
+.power-on {
+  background:
+    linear-gradient(
+      145deg,
+      #38753a,
+      #174719
+    );
+}
+
+.power-on.active {
+  background:
+    linear-gradient(
+      145deg,
+      #b6ffb8 0%,
+      #39dc40 48%,
+      #08770c 100%
+    );
+
+  box-shadow:
+    0 0 6px rgba(80, 255, 85, 0.9),
+    0 0 12px rgba(80, 255, 85, 0.35),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.55);
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+.power-reset {
+  background:
+    linear-gradient(
+      145deg,
+      #b38b2b,
+      #6d4e08
+    );
+}
+
+.power-reset.active {
+  background:
+    linear-gradient(
+      145deg,
+      #fff09b,
+      #ffc928 55%,
+      #a87600
+    );
+
+  box-shadow:
+    0 0 8px rgba(255, 200, 0, 0.9),
+    0 0 14px rgba(255, 200, 0, 0.3);
+}
+
+
+/* =========================================================
+   OFF
+   ========================================================= */
+
+.power-off {
+  background:
+    linear-gradient(
+      145deg,
+      #8e3030,
+      #4a0e0e
+    );
+}
+
+.power-off.active {
+  background:
+    linear-gradient(
+      145deg,
+      #ff9a9a,
+      #e42626 55%,
+      #820909
+    );
+
+  box-shadow:
+    0 0 8px rgba(255, 30, 30, 0.85),
+    0 0 14px rgba(255, 30, 30, 0.25);
+}
+
+
+/* =========================================================
+   PANEL DE EFECTOS
+   ========================================================= */
+
+.fx-panel {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 6px;
+
+  padding:
+    13px 8px
+    12px;
+
+  margin-bottom: 8px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #1b1b1b 0%,
+      #101010 55%,
+      #070707 100%
+    );
+
+  border-left: 2px solid #303030;
+  border-right: 2px solid #303030;
+  border-bottom: 2px solid #303030;
+
+  border-radius:
+    0 0 12px 12px;
+
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.05),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.8);
+}
+
+
+/* =========================================================
+   CONTROL INDIVIDUAL
+   ========================================================= */
+
+.control {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 5px;
+}
+
+.control label {
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1.2px;
+
+  color: #aaaaaa;
+}
+
+
+/* =========================================================
+   CONTENEDOR DE PERILLA
+   ========================================================= */
+
+.knob-shell {
+  position: relative;
+
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================================
+   ESCALA DE PERILLA
+   ========================================================= */
+
+.knob-scale {
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+}
+
+.scale-dot {
+  position: absolute;
+
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  background: #686868;
+
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.dot-1 {
+  left: 8px;
+  bottom: 9px;
+}
+
+.dot-2 {
+  left: 8px;
+  top: 14px;
+}
+
+.dot-3 {
+  left: 50%;
+  top: 4px;
+
+  transform: translateX(-50%);
+}
+
+.dot-4 {
+  right: 8px;
+  top: 14px;
+}
+
+.dot-5 {
+  right: 8px;
+  bottom: 9px;
+}
+
+
+/* =========================================================
+   PERILLA
+   ========================================================= */
+
+.knob-visual {
+  position: relative;
+
+  z-index: 2;
+
+  width: 52px;
+  height: 52px;
+
+  border: 2px solid #050505;
+
+  border-radius: 50%;
+
+  cursor: ns-resize;
+
+  touch-action: none;
+
+  background:
+    radial-gradient(
+      circle at 34% 27%,
+      #696969 0%,
+      #484848 18%,
+      #2b2b2b 43%,
+      #181818 70%,
+      #080808 100%
+    );
+
+  box-shadow:
+    0 5px 6px rgba(0, 0, 0, 0.9),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.17),
+    inset -4px -5px 7px rgba(0, 0, 0, 0.8);
+
+  transition:
+    transform 80ms ease,
+    opacity 150ms ease;
+}
+
+.knob-visual::before {
+  content: "";
+
+  position: absolute;
+
+  inset: -4px;
+
+  z-index: -1;
+
+  border: 1px solid #050505;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #111111,
+      #3b3b3b
+    );
+}
+
+.knob-visual.dragging {
+  transform: scale(0.97);
+}
+
+
+/* =========================================================
+   ROTACIÓN
+   ========================================================= */
+
+.knob-rotator {
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   MARCA ROJA DE PERILLA
+   ========================================================= */
+
+.knob-indicator {
+  position: absolute;
+
+  top: 5px;
+  left: 50%;
+
+  width: 3px;
+  height: 14px;
+
+  transform: translateX(-50%);
+
+  border-radius: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #8f0000,
+      #ff3b3b,
+      #b50000
+    );
+
+  box-shadow:
+    0 0 3px rgba(255, 40, 40, 0.55);
+}
+
+
+/* =========================================================
+   RANGE REAL OCULTO
+   ========================================================= */
+
+.knob-input {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   DISPLAY NUMÉRICO
+   ========================================================= */
+
+.control-value {
+  min-width: 30px;
+
+  padding: 2px 4px;
+
+  text-align: center;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  color: #76ff79;
+
+  background: #020502;
+
+  border: 1px solid #111111;
+
+  border-radius: 2px;
+
+  box-shadow:
+    inset 0 0 5px #000000,
+    0 1px 1px rgba(255, 255, 255, 0.08);
+
+  text-shadow:
+    0 0 3px rgba(90, 255, 90, 0.45);
+}
+
+
+/* =========================================================
+   VISTAS
+   ========================================================= */
+
+.mode-view {
+  width: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =========================================================
+   CONSOLA NORMAL · 9 PADS
+   ========================================================= */
+
+.pads {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 7px;
+}
+
+
+/* =========================================================
+   PAD NORMAL
+   ========================================================= */
+
+.pad {
+  position: relative;
+
+  min-width: 0;
+
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px;
+
+  border: 1px solid #090909;
+
+  border-radius: 9px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #3b3b3b 0%,
+      #2a2a2a 35%,
+      #191919 100%
+    );
+
+  color: #cfcfcf;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  line-height: 1.15;
+
+  letter-spacing: 0.3px;
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  overflow-wrap: anywhere;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  touch-action: manipulation;
+
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9);
+
+  box-shadow:
+    inset 2px 2px 3px rgba(255, 255, 255, 0.07),
+    inset -3px -3px 5px rgba(0, 0, 0, 0.7),
+    0 4px 5px rgba(0, 0, 0, 0.55);
+
+  transition:
+    transform 60ms ease,
+    background 60ms ease,
+    color 60ms ease,
+    box-shadow 60ms ease,
+    opacity 150ms ease;
+}
+
+
+/* =========================================================
+   TEXTURA DEL PAD
+   ========================================================= */
+
+.pad::after,
+.wall-pad::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: inherit;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.025),
+      transparent 40%,
+      rgba(0, 0, 0, 0.08)
+    );
+}
+
+
+/* =========================================================
+   PAD PRESIONADO
+   ========================================================= */
+
+.pad:active,
+.pad.active {
+  transform:
+    translateY(2px)
+    scale(0.98);
+
+  background:
+    linear-gradient(
+      145deg,
+      #262626,
+      #111111
+    );
+
+  color: #ffffff;
+
+  box-shadow:
+    inset 3px 3px 5px rgba(0, 0, 0, 0.85),
+    0 1px 2px rgba(0, 0, 0, 0.55);
+}
+
+
+/* =========================================================
+   PAD VACÍO
+   ========================================================= */
+
+.pad.empty,
+.wall-pad.empty {
+  opacity: 0.28;
+
+  cursor: default;
+
+  color: transparent;
+}
+
+
+/* =========================================================
+   PANEL BANK
+   ========================================================= */
+
+.bank-panel {
+  min-height: 52px;
+
+  margin-top: 9px;
+
+  padding: 8px 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 20px;
+
+  border: 1px solid #5b5b5b;
+
+  border-radius: 7px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #bdbdbd,
+      #989898 50%,
+      #7d7d7d
+    );
+
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   BOTÓN BANK
+   ========================================================= */
+
+.bank-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 3px;
+}
+
+.hardware-label {
+  font-size: 6px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: #333333;
+}
+
+
+/* LED AZUL */
+
+.bank-led {
+  background:
+    linear-gradient(
+      145deg,
+      #9cd7ff,
+      #3199df 45%,
+      #18538a 100%
+    );
+
+  box-shadow:
+    0 0 6px rgba(70, 170, 255, 0.55),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.45);
+}
+
+.bank-led:hover {
+  box-shadow:
+    0 0 8px rgba(70, 170, 255, 0.75),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.45);
+}
+
+.bank-led.pressed {
+  background:
+    linear-gradient(
+      145deg,
+      #e3f6ff,
+      #70ceff 45%,
+      #1799df
+    );
+
+  box-shadow:
+    0 0 8px rgba(90, 190, 255, 1),
+    0 0 15px rgba(90, 190, 255, 0.55);
+}
+
+
+/* =========================================================
+   DISPLAY BANK
+   ========================================================= */
+
+.bank-display {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+}
+
+.bank-display span {
+  font-size: 7px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: #333333;
+}
+
+.bank-display strong {
+  min-width: 42px;
+
+  padding: 3px 7px;
+
+  text-align: center;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  color: #76ff79;
+
+  background: #020502;
+
+  border: 2px solid #333333;
+
+  border-radius: 3px;
+
+  box-shadow:
+    inset 0 0 6px #000000;
+
+  text-shadow:
+    0 0 4px rgba(90, 255, 90, 0.55);
+}
+
+
+/* =========================================================
+   MODO 45 PADS
+   ========================================================= */
+
+.wall-header {
+  min-height: 32px;
+
+  padding: 6px 5px 9px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1.2px;
+
+  color: #333333;
+}
+
+.wall-header strong {
+  font-size: 7px;
+
+  letter-spacing: 1px;
+
+  color: #555555;
+}
+
+
+/* =========================================================
+   GRILLA 45 PADS
+   ESCRITORIO = 9 × 5
+   ========================================================= */
+
+.wall-pads {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(9, minmax(0, 1fr));
+
+  gap: 4px;
+}
+
+
+/* =========================================================
+   PAD PEQUEÑO · CONSOLA 45
+   ========================================================= */
+
+.wall-pad {
+  position: relative;
+
+  min-width: 0;
+
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px;
+
+  border: 1px solid #080808;
+
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #3c3c3c,
+      #292929 40%,
+      #171717
+    );
+
+  color: #cccccc;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 6px;
+  font-weight: 700;
+
+  line-height: 1.05;
+
+  letter-spacing: 0;
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  overflow-wrap: anywhere;
+
+  overflow: hidden;
+
+  cursor: pointer;
+
+  touch-action: manipulation;
+
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.9);
+
+  box-shadow:
+    inset 1px 1px 2px rgba(255, 255, 255, 0.07),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.6),
+    0 2px 3px rgba(0, 0, 0, 0.5);
+
+  transition:
+    transform 60ms ease,
+    background 60ms ease,
+    color 60ms ease,
+    opacity 150ms ease;
+}
+
+.wall-pad:active,
+.wall-pad.active {
+  transform:
+    translateY(2px)
+    scale(0.97);
+
+  background: #111111;
+
+  color: #ffffff;
+
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+
+/* =========================================================
+   PANEL CAMBIO DE MODO
+   ========================================================= */
+
+.mode-panel {
+  margin-top: 9px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* =========================================================
+   BOTÓN 45 PADS / 9 PAD MODE
+   ========================================================= */
+
+.mode-button {
+  min-width: 135px;
+
+  min-height: 34px;
+
+  padding: 9px 18px;
+
+  border: 1px solid #111111;
+
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #454545 0%,
+      #292929 45%,
+      #151515 100%
+    );
+
+  color: #c7c7c7;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  cursor: pointer;
+
+  touch-action: manipulation;
+
+  box-shadow:
+    0 3px 4px rgba(0, 0, 0, 0.55),
+    inset 1px 1px 1px rgba(255, 255, 255, 0.12),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+
+  transition:
+    transform 60ms ease,
+    background 80ms ease,
+    box-shadow 80ms ease;
+}
+
+.mode-button:hover {
+  background:
+    linear-gradient(
+      180deg,
+      #505050,
+      #303030,
+      #181818
+    );
+}
+
+.mode-button:active {
+  transform: translateY(2px);
+
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+
+/* =========================================================
+   APAGADO
+   ========================================================= */
+
+.powered-off .pad,
+.powered-off .wall-pad,
+.powered-off .knob-visual,
+.powered-off .bank-led {
+  opacity: 0.38;
+
+  cursor: default;
+}
+
+.powered-off .control-value,
+.powered-off .bank-display strong {
+  color: #284729;
+
+  text-shadow: none;
+}
+
+.powered-off .scale-dot {
+  opacity: 0.45;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .sampler {
+    max-width: 600px;
+  }
+
+  .wall-pad {
+    font-size: 5.7px;
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  body {
+    padding: 7px;
+
+    align-items: flex-start;
+  }
+
+
+  .sampler {
+    width: 100%;
+
+    padding: 7px;
+
+    border-radius: 18px;
+  }
+
+
+  /* HEADER */
+
+  .sampler-header {
+    min-height: 58px;
+
+    padding: 9px 12px;
+  }
+
+
+  .brand strong {
+    font-size: 18px;
+  }
+
+
+  .brand span {
+    font-size: 6px;
+
+    letter-spacing: 1.5px;
+  }
+
+
+  /* POWER */
+
+  .power-panel {
+    gap: 7px;
+  }
+
+
+  .power-control {
+    min-width: 22px;
+  }
+
+
+  .power-button {
+    width: 17px;
+    height: 17px;
+  }
+
+
+  /* FX */
+
+  .fx-panel {
+    padding:
+      10px 2px;
+
+    gap: 0;
+  }
+
+
+  .control {
+    gap: 4px;
+  }
+
+
+  .control label {
+    font-size: 7px;
+  }
+
+
+  /* KNOBS */
+
+  .knob-shell {
+    width: 61px;
+    height: 61px;
+  }
+
+
+  .knob-visual {
+    width: 46px;
+    height: 46px;
+  }
+
+
+  .knob-indicator {
+    top: 4px;
+
+    height: 12px;
+  }
+
+
+  .dot-1 {
+    left: 6px;
+    bottom: 7px;
+  }
+
+
+  .dot-2 {
+    left: 6px;
+    top: 12px;
+  }
+
+
+  .dot-3 {
+    top: 3px;
+  }
+
+
+  .dot-4 {
+    right: 6px;
+    top: 12px;
+  }
+
+
+  .dot-5 {
+    right: 6px;
+    bottom: 7px;
+  }
+
+
+  /* 9 PADS */
+
+  .pads {
+    gap: 5px;
+  }
+
+
+  .pad {
+    padding: 7px;
+
+    font-size: 8px;
+
+    letter-spacing: 0.1px;
+  }
+
+
+  /* BANK */
+
+  .bank-panel {
+    min-height: 48px;
+
+    margin-top: 7px;
+
+    padding: 7px 10px;
+
+    gap: 16px;
+  }
+
+
+  /* =====================================
+     45 PADS EN CELULAR
+
+     5 columnas × 9 filas
+     ===================================== */
+
+  .wall-pads {
+    grid-template-columns:
+      repeat(5, minmax(0, 1fr));
+
+    gap: 3px;
+  }
+
+
+  .wall-pad {
+    aspect-ratio: auto;
+
+    min-height: 58px;
+
+    padding: 3px;
+
+    font-size: 5.5px;
+
+    border-radius: 4px;
+  }
+
+
+  .wall-header {
+    padding:
+      5px 3px 8px;
+  }
+
+
+  /* MODE */
+
+  .mode-panel {
+    margin-top: 7px;
+  }
+
+
+  .mode-button {
+    min-height: 32px;
+
+    padding:
+      8px 15px;
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR MUY ANGOSTO
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  body {
+    padding: 4px;
+  }
+
+
+  .sampler {
+    padding: 5px;
+  }
+
+
+  .sampler-header {
+    padding:
+      8px 9px;
+  }
+
+
+  .brand strong {
+    font-size: 16px;
+  }
+
+
+  .brand span {
+    font-size: 5.5px;
+
+    letter-spacing: 1px;
+  }
+
+
+  .power-panel {
+    gap: 5px;
+  }
+
+
+  .knob-shell {
+    width: 56px;
+    height: 56px;
+  }
+
+
+  .knob-visual {
+    width: 42px;
+    height: 42px;
+  }
+
+
+  .pad {
+    padding: 5px;
+
+    font-size: 7px;
+  }
+
+
+  .wall-pad {
+    min-height: 53px;
+
+    padding: 2px;
+
+    font-size: 5px;
+  }
+
+}
+
+
+/* =========================================================
+   EXTREMADAMENTE ANGOSTO
+   ========================================================= */
+
+@media (max-width: 330px) {
+
+  .knob-shell {
+    width: 51px;
+    height: 51px;
+  }
+
+
+  .knob-visual {
+    width: 39px;
+    height: 39px;
+  }
+
+
+  .control label {
+    font-size: 6px;
+  }
+
+
+  .control-value {
+    font-size: 7px;
+  }
+
+
+  .wall-pad {
+    min-height: 49px;
+
+    font-size: 4.7px;
+  }
+
+}

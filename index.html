@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#111111"
+  >
+
+  <title>ROLANDo</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+</head>
+
+
+<body>
+
+  <main
+    class="sampler"
+    id="sampler"
+  >
+
+
+    <!-- =====================================
+         HEADER
+         ===================================== -->
+
+    <header class="sampler-header">
+
+      <div class="brand">
+
+        <strong>
+          ROLANDo
+        </strong>
+
+        <span>
+          DIGITAL SOUND PAD
+        </span>
+
+      </div>
+
+
+      <div class="power-panel">
+
+
+        <!-- ON -->
+
+        <div class="power-control">
+
+          <button
+            id="onButton"
+            class="power-button power-on active"
+            type="button"
+            aria-label="Encender"
+          ></button>
+
+          <span>
+            ON
+          </span>
+
+        </div>
+
+
+        <!-- RESET -->
+
+        <div class="power-control">
+
+          <button
+            id="resetButton"
+            class="power-button power-reset"
+            type="button"
+            aria-label="Resetear"
+          ></button>
+
+          <span>
+            RESET
+          </span>
+
+        </div>
+
+
+        <!-- OFF -->
+
+        <div class="power-control">
+
+          <button
+            id="offButton"
+            class="power-button power-off"
+            type="button"
+            aria-label="Apagar"
+          ></button>
+
+          <span>
+            OFF
+          </span>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- =====================================
+         FX
+         ===================================== -->
+
+    <section
+      class="fx-panel"
+      aria-label="Controles"
+    >
+
+
+      <!-- VOL -->
+
+      <div class="control">
+
+        <label for="volume">
+          VOL
+        </label>
+
+        <div class="knob-shell">
+
+          <div class="knob-scale">
+
+            <span class="scale-dot dot-1"></span>
+            <span class="scale-dot dot-2"></span>
+            <span class="scale-dot dot-3"></span>
+            <span class="scale-dot dot-4"></span>
+            <span class="scale-dot dot-5"></span>
+
+          </div>
+
+          <div class="knob-visual">
+
+            <div class="knob-rotator">
+
+              <span class="knob-indicator"></span>
+
+            </div>
+
+          </div>
+
+          <input
+            class="knob-input"
+            id="volume"
+            type="range"
+            min="0"
+            max="100"
+            value="85"
+          >
+
+        </div>
+
+        <span
+          class="control-value"
+          id="volumeValue"
+        >
+          85
+        </span>
+
+      </div>
+
+
+      <!-- SPEED -->
+
+      <div class="control">
+
+        <label for="speed">
+          SPEED
+        </label>
+
+        <div class="knob-shell">
+
+          <div class="knob-scale">
+
+            <span class="scale-dot dot-1"></span>
+            <span class="scale-dot dot-2"></span>
+            <span class="scale-dot dot-3"></span>
+            <span class="scale-dot dot-4"></span>
+            <span class="scale-dot dot-5"></span>
+
+          </div>
+
+          <div class="knob-visual">
+
+            <div class="knob-rotator">
+
+              <span class="knob-indicator"></span>
+
+            </div>
+
+          </div>
+
+          <input
+            class="knob-input"
+            id="speed"
+            type="range"
+            min="25"
+            max="200"
+            value="100"
+          >
+
+        </div>
+
+        <span
+          class="control-value"
+          id="speedValue"
+        >
+          100
+        </span>
+
+      </div>
+
+
+      <!-- FILTER -->
+
+      <div class="control">
+
+        <label for="filter">
+          FILTER
+        </label>
+
+        <div class="knob-shell">
+
+          <div class="knob-scale">
+
+            <span class="scale-dot dot-1"></span>
+            <span class="scale-dot dot-2"></span>
+            <span class="scale-dot dot-3"></span>
+            <span class="scale-dot dot-4"></span>
+            <span class="scale-dot dot-5"></span>
+
+          </div>
+
+          <div class="knob-visual">
+
+            <div class="knob-rotator">
+
+              <span class="knob-indicator"></span>
+
+            </div>
+
+          </div>
+
+          <input
+            class="knob-input"
+            id="filter"
+            type="range"
+            min="0"
+            max="100"
+            value="100"
+          >
+
+        </div>
+
+        <span
+          class="control-value"
+          id="filterValue"
+        >
+          100
+        </span>
+
+      </div>
+
+
+      <!-- ECHO -->
+
+      <div class="control">
+
+        <label for="echo">
+          ECHO
+        </label>
+
+        <div class="knob-shell">
+
+          <div class="knob-scale">
+
+            <span class="scale-dot dot-1"></span>
+            <span class="scale-dot dot-2"></span>
+            <span class="scale-dot dot-3"></span>
+            <span class="scale-dot dot-4"></span>
+            <span class="scale-dot dot-5"></span>
+
+          </div>
+
+          <div class="knob-visual">
+
+            <div class="knob-rotator">
+
+              <span class="knob-indicator"></span>
+
+            </div>
+
+          </div>
+
+          <input
+            class="knob-input"
+            id="echo"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+          >
+
+        </div>
+
+        <span
+          class="control-value"
+          id="echoValue"
+        >
+          0
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================
+         MODO 9 PADS
+         ===================================== -->
+
+    <section
+      id="bankMode"
+      class="mode-view"
+    >
+
+      <section
+        class="pads"
+        id="bankPads"
+      >
+
+        <button class="pad" type="button"></button>
+        <button class="pad" type="button"></button>
+        <button class="pad" type="button"></button>
+
+        <button class="pad" type="button"></button>
+        <button class="pad" type="button"></button>
+        <button class="pad" type="button"></button>
+
+        <button class="pad" type="button"></button>
+        <button class="pad" type="button"></button>
+        <button class="pad" type="button"></button>
+
+      </section>
+
+
+      <!-- BANK -->
+
+      <section class="bank-panel">
+
+        <div class="bank-control">
+
+          <button
+            id="bankButton"
+            class="hardware-button bank-led"
+            type="button"
+            aria-label="Cambiar banco"
+          ></button>
+
+          <span class="hardware-label">
+            BANK
+          </span>
+
+        </div>
+
+
+        <div class="bank-display">
+
+          <span>
+            BANK
+          </span>
+
+          <strong id="bankNumber">
+            01
+          </strong>
+
+        </div>
+
+      </section>
+
+    </section>
+
+
+    <!-- =====================================
+         MODO 45 PADS
+         ===================================== -->
+
+    <section
+      id="wallMode"
+      class="mode-view hidden"
+    >
+
+      <div class="wall-header">
+
+        <span>
+          45 PAD CONSOLE
+        </span>
+
+        <strong>
+          ALL SOUNDS
+        </strong>
+
+      </div>
+
+
+      <section
+        id="wallPads"
+        class="wall-pads"
+      >
+        <!-- JS crea los 45 pads -->
+      </section>
+
+    </section>
+
+
+    <!-- =====================================
+         CAMBIO DE MODO
+         ===================================== -->
+
+    <section class="mode-panel">
+
+      <button
+        id="modeButton"
+        class="mode-button"
+        type="button"
+      >
+        45 PADS
+      </button>
+
+    </section>
+
+
+  </main>
+
+
+  <script src="app.js"></script>
+
+</body>
+
+</html>

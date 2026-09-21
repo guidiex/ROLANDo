@@ -1,11 +1,12 @@
-// ======================================
-// ROLANDo · DIGITAL SOUND PAD
-// ======================================
+/* =========================================
+   ROLANDo
+   DIGITAL SOUND PAD
+   ========================================= */
 
 
-// ======================================
-// SONIDOS
-// ======================================
+/* =========================================
+   SONIDOS
+   ========================================= */
 
 const allSounds = [
 
@@ -57,10 +58,9 @@ const allSounds = [
 ];
 
 
-// ======================================
-// CREAR BANKS AUTOMÁTICAMENTE
-// 9 SONIDOS POR BANK
-// ======================================
+/* =========================================
+   GENERAR BANCOS
+   ========================================= */
 
 const soundBanks = [];
 
@@ -73,40 +73,54 @@ for (
   soundBanks.push(
     allSounds
       .slice(i, i + 9)
-      .map(
-        file =>
-          `sounds/${file}`
-      )
+      .map(file => `sounds/${file}`)
   );
 
 }
 
 
-// ======================================
-// ELEMENTOS
-// ======================================
+/* =========================================
+   DOM
+   ========================================= */
 
 const sampler =
   document.getElementById("sampler");
 
-
 const bankPads =
-  document.querySelectorAll(
-    "#bankPads .pad"
-  );
-
+  [...document.querySelectorAll("#bankPads .pad")];
 
 const wallPads =
-  document.getElementById(
-    "wallPads"
-  );
+  document.getElementById("wallPads");
+
+const bankMode =
+  document.getElementById("bankMode");
+
+const wallMode =
+  document.getElementById("wallMode");
+
+const modeButton =
+  document.getElementById("modeButton");
+
+const bankButton =
+  document.getElementById("bankButton");
+
+const bankNumber =
+  document.getElementById("bankNumber");
 
 
-const knobShells =
-  document.querySelectorAll(
-    ".knob-shell"
-  );
+/* POWER */
 
+const onButton =
+  document.getElementById("onButton");
+
+const resetButton =
+  document.getElementById("resetButton");
+
+const offButton =
+  document.getElementById("offButton");
+
+
+/* CONTROLES */
 
 const volume =
   document.getElementById("volume");
@@ -121,73 +135,24 @@ const echo =
   document.getElementById("echo");
 
 
+/* DISPLAYS */
+
 const volumeValue =
-  document.getElementById(
-    "volumeValue"
-  );
+  document.getElementById("volumeValue");
 
 const speedValue =
-  document.getElementById(
-    "speedValue"
-  );
+  document.getElementById("speedValue");
 
 const filterValue =
-  document.getElementById(
-    "filterValue"
-  );
+  document.getElementById("filterValue");
 
 const echoValue =
-  document.getElementById(
-    "echoValue"
-  );
+  document.getElementById("echoValue");
 
 
-const onButton =
-  document.getElementById(
-    "onButton"
-  );
-
-const resetButton =
-  document.getElementById(
-    "resetButton"
-  );
-
-const offButton =
-  document.getElementById(
-    "offButton"
-  );
-
-
-const bankButton =
-  document.getElementById(
-    "bankButton"
-  );
-
-const bankNumber =
-  document.getElementById(
-    "bankNumber"
-  );
-
-
-const bankMode =
-  document.getElementById(
-    "bankMode"
-  );
-
-const wallMode =
-  document.getElementById(
-    "wallMode"
-  );
-
-const modeButton =
-  document.getElementById(
-    "modeButton"
-  );
-
-
-// ======================================
-// ESTADO
-// ======================================
+/* =========================================
+   ESTADO
+   ========================================= */
 
 let poweredOn = true;
 
@@ -195,74 +160,134 @@ let currentBank = 0;
 
 let currentMode = "bank";
 
-
-// ======================================
-// AUDIO ENGINE
-// ======================================
-
-const AudioContextClass =
-  window.AudioContext ||
-  window.webkitAudioContext;
+const activeAudio = new Set();
 
 
-let ctx = null;
+/* =========================================
+   AUDIO CONTEXT
+   ========================================= */
 
-let master = null;
+let audioContext = null;
+
+let masterGain = null;
 
 let filterNode = null;
 
-let delay = null;
-
-let feedback = null;
+let dryGain = null;
 
 let echoGain = null;
 
+let delayNode = null;
 
-const activeAudios =
-  new Set();
+let feedbackGain = null;
 
 
-// ======================================
-// VOL · SALVAJE
-// ======================================
+/* =========================================
+   CREAR AUDIO
+   ========================================= */
+
+function initAudioContext() {
+
+  if (audioContext) {
+    return;
+  }
+
+  const AudioContextClass =
+    window.AudioContext ||
+    window.webkitAudioContext;
+
+  audioContext =
+    new AudioContextClass();
+
+
+  masterGain =
+    audioContext.createGain();
+
+  filterNode =
+    audioContext.createBiquadFilter();
+
+  dryGain =
+    audioContext.createGain();
+
+  echoGain =
+    audioContext.createGain();
+
+  delayNode =
+    audioContext.createDelay(2);
+
+  feedbackGain =
+    audioContext.createGain();
+
+
+  filterNode.type =
+    "lowpass";
+
+
+  /* RUTA SECA */
+
+  filterNode.connect(dryGain);
+
+  dryGain.connect(masterGain);
+
+
+  /* RUTA ECHO */
+
+  filterNode.connect(delayNode);
+
+  delayNode.connect(echoGain);
+
+  echoGain.connect(masterGain);
+
+
+  /* FEEDBACK */
+
+  delayNode.connect(feedbackGain);
+
+  feedbackGain.connect(delayNode);
+
+
+  /* MASTER */
+
+  masterGain.connect(
+    audioContext.destination
+  );
+
+
+  updateAudioControls();
+
+}
+
+
+/* =========================================
+   VOLUMEN
+   ========================================= */
 
 function getVolumeGain() {
 
   const amount =
     Number(volume.value) / 100;
 
-
   return (
-    Math.pow(
-      amount,
-      2.4
-    ) * 1.8
+    Math.pow(amount, 2.4) * 1.8
   );
 
 }
 
 
-// ======================================
-// FILTER
-// ======================================
+/* =========================================
+   FILTER
+   ========================================= */
 
 function getFilterFrequency() {
 
   const value =
     Number(filter.value) / 100;
 
-
   const aggressive =
-    Math.pow(
-      value,
-      2.2
-    );
-
+    Math.pow(value, 2.2);
 
   const min = 70;
-
   const max = 20000;
-
 
   return (
     min *
@@ -275,182 +300,79 @@ function getFilterFrequency() {
 }
 
 
-// ======================================
-// AUDIO INIT
-// ======================================
+/* =========================================
+   ACTUALIZAR AUDIO
+   ========================================= */
 
-function initAudio() {
+function updateAudioControls() {
 
-  if (ctx) {
+  volumeValue.textContent =
+    volume.value;
+
+  speedValue.textContent =
+    speed.value;
+
+  filterValue.textContent =
+    filter.value;
+
+  echoValue.textContent =
+    echo.value;
+
+
+  if (!audioContext) {
     return;
   }
 
 
-  ctx =
-    new AudioContextClass();
-
-
-  // MASTER
-
-  master =
-    ctx.createGain();
-
-
-  master.gain.value =
-    getVolumeGain();
-
-
-  master.connect(
-    ctx.destination
-  );
-
-
-  // FILTER
-
-  filterNode =
-    ctx.createBiquadFilter();
-
-
-  filterNode.type =
-    "lowpass";
-
-
-  filterNode.Q.value =
-    0.7;
+  masterGain.gain.value =
+    poweredOn
+      ? getVolumeGain()
+      : 0;
 
 
   filterNode.frequency.value =
     getFilterFrequency();
 
 
-  filterNode.connect(
-    master
-  );
-
-
-  // ECHO
-
-  delay =
-    ctx.createDelay(2);
-
-
-  delay.delayTime.value =
+  delayNode.delayTime.value =
     0.28;
-
-
-  feedback =
-    ctx.createGain();
-
-
-  echoGain =
-    ctx.createGain();
-
-
-  feedback.gain.value = 0;
-
-  echoGain.gain.value = 0;
-
-
-  filterNode.connect(
-    delay
-  );
-
-
-  delay.connect(
-    echoGain
-  );
-
-
-  echoGain.connect(
-    master
-  );
-
-
-  delay.connect(
-    feedback
-  );
-
-
-  feedback.connect(
-    delay
-  );
-
-
-  updateAudioControls();
-
-}
-
-
-// ======================================
-// AUDIO CONTROLS
-// ======================================
-
-function updateAudioControls() {
-
-  if (!ctx) {
-    return;
-  }
-
-
-  master.gain.setTargetAtTime(
-    getVolumeGain(),
-    ctx.currentTime,
-    0.01
-  );
-
-
-  filterNode.frequency.setTargetAtTime(
-    getFilterFrequency(),
-    ctx.currentTime,
-    0.01
-  );
 
 
   const amount =
     Number(echo.value) / 100;
 
-
   const boosted =
-    Math.pow(
-      amount,
-      1.5
-    );
+    Math.pow(amount, 1.5);
 
 
-  echoGain.gain.setTargetAtTime(
-    boosted * 1.35,
-    ctx.currentTime,
-    0.01
-  );
+  echoGain.gain.value =
+    poweredOn
+      ? boosted * 1.35
+      : 0;
 
 
-  feedback.gain.setTargetAtTime(
-    boosted * 0.88,
-    ctx.currentTime,
-    0.01
-  );
+  feedbackGain.gain.value =
+    poweredOn
+      ? boosted * 0.88
+      : 0;
 
 }
 
 
-// ======================================
-// NOMBRE PARA MOSTRAR
-// ======================================
+/* =========================================
+   NOMBRE DE SONIDO
+   ========================================= */
 
-function getSoundName(
-  soundFile
-) {
+function getSoundName(soundFile) {
 
   if (!soundFile) {
     return "";
   }
 
-
   let name =
     soundFile
       .split("/")
       .pop();
-
 
   name =
     name.replace(
@@ -458,13 +380,11 @@ function getSoundName(
       ""
     );
 
-
   name =
     name.replace(
       /[-_]+/g,
       " "
     );
-
 
   name =
     name.replace(
@@ -472,222 +392,221 @@ function getSoundName(
       " "
     );
 
-
   return name.trim();
 
 }
 
 
-// ======================================
-// PLAY
-// ======================================
+/* =========================================
+   REPRODUCIR SONIDO
+   ========================================= */
 
 async function playSound(
+  sound,
   pad
 ) {
 
-  if (!poweredOn) {
+  if (
+    !poweredOn ||
+    !sound
+  ) {
     return;
   }
 
 
-  const soundFile =
-    pad.dataset.sound;
-
-
-  if (!soundFile) {
-    return;
-  }
-
-
-  initAudio();
+  initAudioContext();
 
 
   if (
-    ctx.state === "suspended"
+    audioContext.state ===
+    "suspended"
   ) {
 
-    await ctx.resume();
+    try {
+      await audioContext.resume();
+    }
+    catch (error) {
+      console.error(error);
+    }
 
   }
 
 
   const audio =
-    new Audio(
-      soundFile
-    );
+    new Audio(sound);
+
+  audio.preload =
+    "auto";
 
 
   audio.playbackRate =
     Number(speed.value) / 100;
 
 
-  audio.volume = 1;
-
-
-  const source =
-    ctx.createMediaElementSource(
-      audio
-    );
-
-
-  source.connect(
-    filterNode
-  );
-
-
-  const soundData = {
-    audio,
-    source
-  };
-
-
-  activeAudios.add(
-    soundData
-  );
-
-
-  function cleanup() {
-
-    activeAudios.delete(
-      soundData
-    );
-
-
-    try {
-
-      source.disconnect();
-
-    }
-
-    catch (error) {
-
-      // Ya desconectado.
-
-    }
-
-  }
-
-
-  audio.addEventListener(
-    "ended",
-    cleanup,
-    {
-      once: true
-    }
-  );
-
-
-  audio.addEventListener(
-    "error",
-    cleanup,
-    {
-      once: true
-    }
-  );
+  let source = null;
 
 
   try {
 
-    await audio.play();
+    source =
+      audioContext
+        .createMediaElementSource(
+          audio
+        );
 
-  }
 
-  catch (error) {
-
-    console.error(
-      "Error de audio:",
-      soundFile,
-      error
+    source.connect(
+      filterNode
     );
 
 
-    cleanup();
+    activeAudio.add({
+      audio,
+      source
+    });
+
+
+    if (pad) {
+
+      pad.classList.add(
+        "active"
+      );
+
+    }
+
+
+    const cleanup = () => {
+
+      if (pad) {
+
+        pad.classList.remove(
+          "active"
+        );
+
+      }
+
+
+      for (
+        const item of activeAudio
+      ) {
+
+        if (
+          item.audio === audio
+        ) {
+
+          try {
+            item.source.disconnect();
+          }
+          catch (error) {
+            // Ya desconectado.
+          }
+
+          activeAudio.delete(
+            item
+          );
+
+          break;
+
+        }
+
+      }
+
+    };
+
+
+    audio.addEventListener(
+      "ended",
+      cleanup,
+      { once: true }
+    );
+
+
+    audio.addEventListener(
+      "error",
+      cleanup,
+      { once: true }
+    );
+
+
+    await audio.play();
+
+  }
+  catch (error) {
+
+    console.error(
+      "No se pudo reproducir:",
+      sound,
+      error
+    );
+
+    if (pad) {
+
+      pad.classList.remove(
+        "active"
+      );
+
+    }
+
+    if (source) {
+
+      try {
+        source.disconnect();
+      }
+      catch (disconnectError) {
+        // Ignorar.
+      }
+
+    }
 
   }
 
 }
 
 
-// ======================================
-// PREPARAR PAD
-// ======================================
+/* =========================================
+   PREPARAR PAD
+   ========================================= */
 
-function preparePad(
-  pad
-) {
+function preparePad(pad) {
 
   pad.addEventListener(
-    "pointerdown",
+    "click",
     () => {
 
       if (!poweredOn) {
         return;
       }
 
+      const sound =
+        pad.dataset.sound;
 
-      if (
-        !pad.dataset.sound
-      ) {
-
+      if (!sound) {
         return;
       }
 
-
-      pad.classList.add(
-        "active"
-      );
-
-
       playSound(
+        sound,
         pad
       );
 
     }
   );
 
-
-  function release() {
-
-    pad.classList.remove(
-      "active"
-    );
-
-  }
-
-
-  pad.addEventListener(
-    "pointerup",
-    release
-  );
-
-
-  pad.addEventListener(
-    "pointerleave",
-    release
-  );
-
-
-  pad.addEventListener(
-    "pointercancel",
-    release
-  );
-
 }
 
 
-// ======================================
-// PREPARAR 9 PADS
-// ======================================
+/* =========================================
+   PADS DE BANCO
+   ========================================= */
 
 bankPads.forEach(
   preparePad
 );
 
 
-// ======================================
-// ACTUALIZAR BANK
-// ======================================
+/* =========================================
+   ACTUALIZAR BANCO
+   ========================================= */
 
 function updateBank() {
 
@@ -707,27 +626,27 @@ function updateBank() {
         pad.dataset.sound =
           sound;
 
-
         pad.textContent =
-          getSoundName(
-            sound
-          );
+          getSoundName(sound);
 
+        pad.disabled =
+          false;
 
         pad.classList.remove(
           "empty"
         );
 
       }
-
       else {
 
-        delete pad.dataset.sound;
-
+        pad.dataset.sound =
+          "";
 
         pad.textContent =
           "";
 
+        pad.disabled =
+          true;
 
         pad.classList.add(
           "empty"
@@ -750,9 +669,9 @@ function updateBank() {
 }
 
 
-// ======================================
-// BOTÓN BANK
-// ======================================
+/* =========================================
+   BOTÓN BANK
+   ========================================= */
 
 bankButton.addEventListener(
   "click",
@@ -762,9 +681,7 @@ bankButton.addEventListener(
       return;
     }
 
-
     currentBank++;
-
 
     if (
       currentBank >=
@@ -775,16 +692,11 @@ bankButton.addEventListener(
 
     }
 
-
     updateBank();
-
-
-    // Flash LED
 
     bankButton.classList.add(
       "pressed"
     );
-
 
     setTimeout(
       () => {
@@ -801,13 +713,14 @@ bankButton.addEventListener(
 );
 
 
-// ======================================
-// CREAR CONSOLA 45
-// ======================================
+/* =========================================
+   45 PADS
+   ========================================= */
 
 function createWallPads() {
 
-  wallPads.innerHTML = "";
+  wallPads.innerHTML =
+    "";
 
 
   for (
@@ -821,10 +734,8 @@ function createWallPads() {
         "button"
       );
 
-
     pad.type =
       "button";
-
 
     pad.className =
       "wall-pad";
@@ -839,20 +750,15 @@ function createWallPads() {
       pad.dataset.sound =
         `sounds/${file}`;
 
-
       pad.textContent =
-        getSoundName(
-          file
-        );
+        getSoundName(file);
 
     }
-
     else {
 
       pad.classList.add(
         "empty"
       );
-
 
       pad.disabled =
         true;
@@ -860,10 +766,7 @@ function createWallPads() {
     }
 
 
-    preparePad(
-      pad
-    );
-
+    preparePad(pad);
 
     wallPads.appendChild(
       pad
@@ -874,16 +777,18 @@ function createWallPads() {
 }
 
 
-createWallPads();
-
-
-// ======================================
-// CAMBIO DE MODO
-// ======================================
+/* =========================================
+   CAMBIO DE MODO
+   ========================================= */
 
 modeButton.addEventListener(
   "click",
   () => {
+
+    if (!poweredOn) {
+      return;
+    }
+
 
     if (
       currentMode === "bank"
@@ -892,37 +797,30 @@ modeButton.addEventListener(
       currentMode =
         "wall";
 
-
       bankMode.classList.add(
         "hidden"
       );
-
 
       wallMode.classList.remove(
         "hidden"
       );
 
-
       modeButton.textContent =
         "9 PAD MODE";
 
     }
-
     else {
 
       currentMode =
         "bank";
 
-
       wallMode.classList.add(
         "hidden"
       );
 
-
       bankMode.classList.remove(
         "hidden"
       );
-
 
       modeButton.textContent =
         "45 PADS";
@@ -933,568 +831,61 @@ modeButton.addEventListener(
 );
 
 
-// ======================================
-// VOL
-// ======================================
+/* =========================================
+   PARAR TODOS LOS SONIDOS
+   ========================================= */
 
-volume.addEventListener(
-  "input",
-  () => {
+function stopAllAudio() {
 
-    volumeValue.textContent =
-      volume.value;
-
-
-    if (!ctx) {
-      return;
-    }
-
-
-    master.gain.setTargetAtTime(
-      getVolumeGain(),
-      ctx.currentTime,
-      0.01
-    );
-
-  }
-);
-
-
-// ======================================
-// SPEED
-// ======================================
-
-speed.addEventListener(
-  "input",
-  () => {
-
-    speedValue.textContent =
-      speed.value;
-
-
-    activeAudios.forEach(
-      soundData => {
-
-        soundData.audio.playbackRate =
-          Number(speed.value) / 100;
-
-      }
-    );
-
-  }
-);
-
-
-// ======================================
-// FILTER
-// ======================================
-
-filter.addEventListener(
-  "input",
-  () => {
-
-    filterValue.textContent =
-      filter.value;
-
-
-    if (!ctx) {
-      return;
-    }
-
-
-    filterNode.frequency.setTargetAtTime(
-      getFilterFrequency(),
-      ctx.currentTime,
-      0.01
-    );
-
-  }
-);
-
-
-// ======================================
-// ECHO
-// ======================================
-
-echo.addEventListener(
-  "input",
-  () => {
-
-    echoValue.textContent =
-      echo.value;
-
-
-    if (!ctx) {
-      return;
-    }
-
-
-    const amount =
-      Number(echo.value) / 100;
-
-
-    const boosted =
-      Math.pow(
-        amount,
-        1.5
-      );
-
-
-    echoGain.gain.setTargetAtTime(
-      boosted * 1.35,
-      ctx.currentTime,
-      0.01
-    );
-
-
-    feedback.gain.setTargetAtTime(
-      boosted * 0.88,
-      ctx.currentTime,
-      0.01
-    );
-
-  }
-);
-
-
-// ======================================
-// KNOB VISUAL
-// ======================================
-
-function updateKnobVisual(
-  input
-) {
-
-  const shell =
-    input.closest(
-      ".knob-shell"
-    );
-
-
-  if (!shell) {
-    return;
-  }
-
-
-  const rotator =
-    shell.querySelector(
-      ".knob-rotator"
-    );
-
-
-  if (!rotator) {
-    return;
-  }
-
-
-  const min =
-    Number(input.min);
-
-  const max =
-    Number(input.max);
-
-  const value =
-    Number(input.value);
-
-
-  let angle;
-
-
-  // SPEED:
-  // 100 queda centrado.
-
-  if (
-    input.id === "speed"
+  for (
+    const item of activeAudio
   ) {
 
-    if (
-      value <= 100
-    ) {
+    try {
 
-      const ratio =
-        (
-          value - min
-        ) /
-        (
-          100 - min
-        );
+      item.audio.pause();
 
+      item.audio.currentTime =
+        0;
 
-      angle =
-        -135 +
-        ratio * 135;
+      item.source.disconnect();
 
     }
-
-    else {
-
-      const ratio =
-        (
-          value - 100
-        ) /
-        (
-          max - 100
-        );
-
-
-      angle =
-        ratio * 135;
-
+    catch (error) {
+      console.error(error);
     }
 
   }
 
-  else {
 
-    const ratio =
-      (
-        value - min
-      ) /
-      (
-        max - min
-      );
-
-
-    angle =
-      -135 +
-      ratio * 270;
-
-  }
-
-
-  rotator.style.transform =
-    `rotate(${angle}deg)`;
-
-}
-
-
-// ======================================
-// ACTUALIZAR KNOBS
-// ======================================
-
-function updateAllKnobs() {
-
-  knobShells.forEach(
-    shell => {
-
-      const input =
-        shell.querySelector(
-          ".knob-input"
-        );
-
-
-      if (input) {
-
-        updateKnobVisual(
-          input
-        );
-
-      }
-
-    }
-  );
-
-}
-
-
-// ======================================
-// DRAG KNOBS
-// ======================================
-
-knobShells.forEach(
-  shell => {
-
-    const input =
-      shell.querySelector(
-        ".knob-input"
-      );
-
-
-    const visual =
-      shell.querySelector(
-        ".knob-visual"
-      );
-
-
-    if (
-      !input ||
-      !visual
-    ) {
-
-      return;
-
-    }
-
-
-    let dragging = false;
-
-    let startY = 0;
-
-    let startValue = 0;
-
-
-    visual.addEventListener(
-      "pointerdown",
-      event => {
-
-        if (!poweredOn) {
-          return;
-        }
-
-
-        dragging = true;
-
-        startY =
-          event.clientY;
-
-        startValue =
-          Number(
-            input.value
-          );
-
-
-        visual.setPointerCapture(
-          event.pointerId
-        );
-
-
-        visual.classList.add(
-          "dragging"
-        );
-
-      }
-    );
-
-
-    visual.addEventListener(
-      "pointermove",
-      event => {
-
-        if (
-          !dragging ||
-          !poweredOn
-        ) {
-
-          return;
-
-        }
-
-
-        const deltaY =
-          startY -
-          event.clientY;
-
-
-        const min =
-          Number(input.min);
-
-
-        const max =
-          Number(input.max);
-
-
-        const range =
-          max - min;
-
-
-        const change =
-          (
-            deltaY / 120
-          ) * range;
-
-
-        let newValue =
-          startValue +
-          change;
-
-
-        newValue =
-          Math.max(
-            min,
-            Math.min(
-              max,
-              newValue
-            )
-          );
-
-
-        input.value =
-          Math.round(
-            newValue
-          );
-
-
-        updateKnobVisual(
-          input
-        );
-
-
-        input.dispatchEvent(
-          new Event(
-            "input",
-            {
-              bubbles: true
-            }
-          )
-        );
-
-      }
-    );
-
-
-    function stopDragging(
-      event
-    ) {
-
-      if (!dragging) {
-        return;
-      }
-
-
-      dragging = false;
-
-
-      visual.classList.remove(
-        "dragging"
-      );
-
-
-      if (
-        visual.hasPointerCapture(
-          event.pointerId
-        )
-      ) {
-
-        visual.releasePointerCapture(
-          event.pointerId
-        );
-
-      }
-
-    }
-
-
-    visual.addEventListener(
-      "pointerup",
-      stopDragging
-    );
-
-
-    visual.addEventListener(
-      "pointercancel",
-      stopDragging
-    );
-
-
-    input.addEventListener(
-      "input",
-      () => {
-
-        updateKnobVisual(
-          input
-        );
-
-      }
-    );
-
-  }
-);
-
-
-// ======================================
-// STOP ALL
-// ======================================
-
-function stopAllSounds() {
-
-  activeAudios.forEach(
-    soundData => {
-
-      try {
-
-        soundData.audio.pause();
-
-        soundData.audio.currentTime =
-          0;
-
-        soundData.source.disconnect();
-
-      }
-
-      catch (error) {
-
-        // Ignorar.
-
-      }
-
-    }
-  );
-
-
-  activeAudios.clear();
+  activeAudio.clear();
 
 
   document
     .querySelectorAll(
-      ".pad, .wall-pad"
+      ".pad.active, .wall-pad.active"
     )
     .forEach(
-      pad => {
-
+      pad =>
         pad.classList.remove(
           "active"
-        );
-
-      }
+        )
     );
-
-
-  if (ctx) {
-
-    feedback.gain
-      .cancelScheduledValues(
-        ctx.currentTime
-      );
-
-
-    echoGain.gain
-      .cancelScheduledValues(
-        ctx.currentTime
-      );
-
-
-    feedback.gain
-      .setValueAtTime(
-        0,
-        ctx.currentTime
-      );
-
-
-    echoGain.gain
-      .setValueAtTime(
-        0,
-        ctx.currentTime
-      );
-
-
-    if (
-      ctx.state === "running"
-    ) {
-
-      ctx.suspend();
-
-    }
-
-  }
 
 }
 
 
-// ======================================
-// POWER VISUAL
-// ======================================
+/* =========================================
+   POWER VISUAL
+   ========================================= */
 
 function updatePowerState() {
+
+  sampler.classList.toggle(
+    "powered-off",
+    !poweredOn
+  );
+
 
   onButton.classList.toggle(
     "active",
@@ -1507,31 +898,89 @@ function updatePowerState() {
     !poweredOn
   );
 
-
-  sampler.classList.toggle(
-    "powered-off",
-    !poweredOn
-  );
-
 }
 
 
-// ======================================
-// ON
-// ======================================
+/* =========================================
+   ON
+   ========================================= */
 
 onButton.addEventListener(
   "click",
   async () => {
 
-    poweredOn = true;
+    poweredOn =
+      true;
 
 
-    if (ctx) {
+    initAudioContext();
 
-      await ctx.resume();
 
-      updateAudioControls();
+    if (
+      audioContext.state ===
+      "suspended"
+    ) {
+
+      try {
+        await audioContext.resume();
+      }
+      catch (error) {
+        console.error(error);
+      }
+
+    }
+
+
+    updateAudioControls();
+
+    updatePowerState();
+
+  }
+);
+
+
+/* =========================================
+   OFF
+   ========================================= */
+
+offButton.addEventListener(
+  "click",
+  async () => {
+
+    poweredOn =
+      false;
+
+
+    stopAllAudio();
+
+
+    if (audioContext) {
+
+      echoGain.gain.value =
+        0;
+
+      feedbackGain.gain.value =
+        0;
+
+      masterGain.gain.value =
+        0;
+
+
+      try {
+
+        if (
+          audioContext.state ===
+          "running"
+        ) {
+
+          await audioContext.suspend();
+
+        }
+
+      }
+      catch (error) {
+        console.error(error);
+      }
 
     }
 
@@ -1542,41 +991,48 @@ onButton.addEventListener(
 );
 
 
-// ======================================
-// RESET
-// ======================================
+/* =========================================
+   RESET
+   ========================================= */
 
 resetButton.addEventListener(
   "click",
   () => {
 
-    volume.value = 85;
-
-    speed.value = 100;
-
-    filter.value = 100;
-
-    echo.value = 0;
+    if (!poweredOn) {
+      return;
+    }
 
 
-    volume.dispatchEvent(
-      new Event("input")
+    volume.value =
+      85;
+
+    speed.value =
+      100;
+
+    filter.value =
+      100;
+
+    echo.value =
+      0;
+
+
+    [
+      volume,
+      speed,
+      filter,
+      echo
+    ].forEach(
+      input => {
+
+        input.dispatchEvent(
+          new Event(
+            "input"
+          )
+        );
+
+      }
     );
-
-    speed.dispatchEvent(
-      new Event("input")
-    );
-
-    filter.dispatchEvent(
-      new Event("input")
-    );
-
-    echo.dispatchEvent(
-      new Event("input")
-    );
-
-
-    updateAllKnobs();
 
 
     resetButton.classList.add(
@@ -1592,37 +1048,339 @@ resetButton.addEventListener(
         );
 
       },
-      160
+      180
     );
 
   }
 );
 
 
-// ======================================
-// OFF
-// ======================================
+/* =========================================
+   INPUTS
+   ========================================= */
 
-offButton.addEventListener(
-  "click",
-  () => {
+[
+  volume,
+  speed,
+  filter,
+  echo
+].forEach(
+  input => {
 
-    poweredOn = false;
-
-    stopAllSounds();
-
-    updatePowerState();
+    input.addEventListener(
+      "input",
+      updateAudioControls
+    );
 
   }
 );
 
 
-// ======================================
-// START
-// ======================================
+/* =========================================
+   KNOBS
+   ========================================= */
 
-updateAllKnobs();
+function updateKnobVisual(
+  input
+) {
+
+  const shell =
+    input.closest(
+      ".knob-shell"
+    );
+
+  if (!shell) {
+    return;
+  }
+
+
+  const rotator =
+    shell.querySelector(
+      ".knob-rotator"
+    );
+
+
+  const min =
+    Number(input.min);
+
+  const max =
+    Number(input.max);
+
+  const value =
+    Number(input.value);
+
+
+  let ratio;
+
+
+  /*
+   SPEED:
+   hacemos que 100 quede
+   visualmente en las 12.
+  */
+
+  if (
+    input.id === "speed"
+  ) {
+
+    if (value <= 100) {
+
+      ratio =
+        0.5 *
+        (
+          (value - min) /
+          (100 - min)
+        );
+
+    }
+    else {
+
+      ratio =
+        0.5 +
+        (
+          0.5 *
+          (
+            (value - 100) /
+            (max - 100)
+          )
+        );
+
+    }
+
+  }
+  else {
+
+    ratio =
+      (value - min) /
+      (max - min);
+
+  }
+
+
+  const angle =
+    -135 +
+    (
+      ratio * 270
+    );
+
+
+  rotator.style.transform =
+    `rotate(${angle}deg)`;
+
+}
+
+
+/* =========================================
+   DRAG KNOBS
+   ========================================= */
+
+document
+  .querySelectorAll(
+    ".knob-shell"
+  )
+  .forEach(
+    shell => {
+
+      const input =
+        shell.querySelector(
+          ".knob-input"
+        );
+
+
+      let dragging =
+        false;
+
+      let startY =
+        0;
+
+      let startValue =
+        0;
+
+
+      const startDrag =
+        event => {
+
+          if (!poweredOn) {
+            return;
+          }
+
+
+          dragging =
+            true;
+
+
+          startY =
+            event.clientY;
+
+
+          startValue =
+            Number(
+              input.value
+            );
+
+
+          shell.classList.add(
+            "dragging"
+          );
+
+
+          if (
+            shell.setPointerCapture
+          ) {
+
+            try {
+
+              shell.setPointerCapture(
+                event.pointerId
+              );
+
+            }
+            catch (error) {
+              // No es crítico.
+            }
+
+          }
+
+
+          event.preventDefault();
+
+        };
+
+
+      const moveDrag =
+        event => {
+
+          if (
+            !dragging ||
+            !poweredOn
+          ) {
+            return;
+          }
+
+
+          const min =
+            Number(input.min);
+
+          const max =
+            Number(input.max);
+
+
+          const range =
+            max - min;
+
+
+          const sensitivity =
+            range / 150;
+
+
+          const deltaY =
+            startY -
+            event.clientY;
+
+
+          let newValue =
+            startValue +
+            deltaY *
+            sensitivity;
+
+
+          newValue =
+            Math.max(
+              min,
+              Math.min(
+                max,
+                newValue
+              )
+            );
+
+
+          input.value =
+            Math.round(
+              newValue
+            );
+
+
+          input.dispatchEvent(
+            new Event(
+              "input"
+            )
+          );
+
+
+          updateKnobVisual(
+            input
+          );
+
+        };
+
+
+      const endDrag =
+        () => {
+
+          dragging =
+            false;
+
+          shell.classList.remove(
+            "dragging"
+          );
+
+        };
+
+
+      shell.addEventListener(
+        "pointerdown",
+        startDrag
+      );
+
+
+      shell.addEventListener(
+        "pointermove",
+        moveDrag
+      );
+
+
+      shell.addEventListener(
+        "pointerup",
+        endDrag
+      );
+
+
+      shell.addEventListener(
+        "pointercancel",
+        endDrag
+      );
+
+
+      input.addEventListener(
+        "input",
+        () =>
+          updateKnobVisual(
+            input
+          )
+      );
+
+    }
+  );
+
+
+/* =========================================
+   INICIALIZACIÓN
+   ========================================= */
+
+createWallPads();
 
 updateBank();
 
 updatePowerState();
+
+updateAudioControls();
+
+
+[
+  volume,
+  speed,
+  filter,
+  echo
+].forEach(
+  updateKnobVisual
+);

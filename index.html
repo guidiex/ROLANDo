@@ -2,7 +2,6 @@
 <html lang="es">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -10,149 +9,102 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <meta
-    name="theme-color"
-    content="#111111"
-  >
+  <meta name="theme-color" content="#111111">
 
   <title>ROLANDo · Digital Sound Pad</title>
-
-  <!-- DESCRIPCIÓN -->
 
   <meta
     name="description"
     content="ROLANDo · Digital Sound Pad. 40 sonidos, 5 bancos, efectos en tiempo real y consola de 45 pads."
   >
 
-
-  <!-- WHATSAPP / OPEN GRAPH -->
+  <!-- OPEN GRAPH / WHATSAPP -->
 
   <meta property="og:type" content="website">
 
-<meta
-  property="og:title"
-  content="ROLANDo · Digital Sound Pad"
->
+  <meta
+    property="og:title"
+    content="ROLANDo · Digital Sound Pad"
+  >
 
-<meta
-  property="og:description"
-  content="40 sonidos, 5 bancos y efectos en tiempo real. Incluye el éxito Lira para arriba."
->
+  <meta
+    property="og:description"
+    content="40 sonidos, 5 bancos y efectos en tiempo real. Incluye el éxito Lira para arriba."
+  >
 
-<meta
-  property="og:url"
-  content="https://guidiex.github.io/ROLANDo/"
->
+  <meta
+    property="og:url"
+    content="https://guidiex.github.io/ROLANDo/"
+  >
 
-<meta
-  property="og:image"
-  content="https://guidiex.github.io/ROLANDo/images/banner-wa.png"
->
+  <meta
+    property="og:image"
+    content="https://guidiex.github.io/ROLANDo/images/banner-wa.jpg"
+  >
 
-<meta
-  property="og:image:secure_url"
-  content="https://guidiex.github.io/ROLANDo/images/banner-wa.png"
->
+  <meta
+    property="og:image:secure_url"
+    content="https://guidiex.github.io/ROLANDo/images/banner-wa.jpg"
+  >
 
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
->
+  <meta
+    property="og:image:type"
+    content="image/jpeg"
+  >
 
-<meta
-  property="og:image:type"
-  content="image/png"
->
+  <meta
+    property="og:image:alt"
+    content="ROLANDo Digital Sound Pad"
+  >
 
-<meta
-  property="og:image:alt"
-  content="ROLANDo Digital Sound Pad"
->
+  <!-- CSS -->
+  <link rel="stylesheet" href="./style.css">
 
 </head>
 
-
 <body>
 
-  <main
-    class="sampler"
-    id="sampler"
-  >
+  <main class="sampler" id="sampler">
 
-
-    <!-- =====================================
-         HEADER
-         ===================================== -->
+    <!-- HEADER -->
 
     <header class="sampler-header">
 
       <div class="brand">
-
-        <strong>
-          ROLANDo
-        </strong>
-
-        <span>
-          DIGITAL SOUND PAD
-        </span>
-
+        <strong>ROLANDo</strong>
+        <span>DIGITAL SOUND PAD</span>
       </div>
-
 
       <div class="power-panel">
 
-
-        <!-- ON -->
-
         <div class="power-control">
-
           <button
             id="onButton"
             class="power-button power-on active"
             type="button"
             aria-label="Encender"
           ></button>
-
-          <span>
-            ON
-          </span>
-
+          <span>ON</span>
         </div>
 
-
-        <!-- RESET -->
-
         <div class="power-control">
-
           <button
             id="resetButton"
             class="power-button power-reset"
             type="button"
             aria-label="Resetear"
           ></button>
-
-          <span>
-            RESET
-          </span>
-
+          <span>RESET</span>
         </div>
 
-
-        <!-- OFF -->
-
         <div class="power-control">
-
           <button
             id="offButton"
             class="power-button power-off"
             type="button"
             aria-label="Apagar"
           ></button>
-
-          <span>
-            OFF
-          </span>
-
+          <span>OFF</span>
         </div>
 
       </div>
@@ -160,44 +112,30 @@
     </header>
 
 
-    <!-- =====================================
-         FX
-         ===================================== -->
+    <!-- CONTROLES FX -->
 
-    <section
-      class="fx-panel"
-      aria-label="Controles"
-    >
-
+    <section class="fx-panel" aria-label="Controles">
 
       <!-- VOL -->
 
       <div class="control">
 
-        <label for="volume">
-          VOL
-        </label>
+        <label for="volume">VOL</label>
 
         <div class="knob-shell">
 
           <div class="knob-scale">
-
             <span class="scale-dot dot-1"></span>
             <span class="scale-dot dot-2"></span>
             <span class="scale-dot dot-3"></span>
             <span class="scale-dot dot-4"></span>
             <span class="scale-dot dot-5"></span>
-
           </div>
 
           <div class="knob-visual">
-
             <div class="knob-rotator">
-
               <span class="knob-indicator"></span>
-
             </div>
-
           </div>
 
           <input
@@ -211,10 +149,7 @@
 
         </div>
 
-        <span
-          class="control-value"
-          id="volumeValue"
-        >
+        <span class="control-value" id="volumeValue">
           85
         </span>
 
@@ -225,30 +160,22 @@
 
       <div class="control">
 
-        <label for="speed">
-          SPEED
-        </label>
+        <label for="speed">SPEED</label>
 
         <div class="knob-shell">
 
           <div class="knob-scale">
-
             <span class="scale-dot dot-1"></span>
             <span class="scale-dot dot-2"></span>
             <span class="scale-dot dot-3"></span>
             <span class="scale-dot dot-4"></span>
             <span class="scale-dot dot-5"></span>
-
           </div>
 
           <div class="knob-visual">
-
             <div class="knob-rotator">
-
               <span class="knob-indicator"></span>
-
             </div>
-
           </div>
 
           <input
@@ -262,10 +189,7 @@
 
         </div>
 
-        <span
-          class="control-value"
-          id="speedValue"
-        >
+        <span class="control-value" id="speedValue">
           100
         </span>
 
@@ -276,30 +200,22 @@
 
       <div class="control">
 
-        <label for="filter">
-          FILTER
-        </label>
+        <label for="filter">FILTER</label>
 
         <div class="knob-shell">
 
           <div class="knob-scale">
-
             <span class="scale-dot dot-1"></span>
             <span class="scale-dot dot-2"></span>
             <span class="scale-dot dot-3"></span>
             <span class="scale-dot dot-4"></span>
             <span class="scale-dot dot-5"></span>
-
           </div>
 
           <div class="knob-visual">
-
             <div class="knob-rotator">
-
               <span class="knob-indicator"></span>
-
             </div>
-
           </div>
 
           <input
@@ -313,10 +229,7 @@
 
         </div>
 
-        <span
-          class="control-value"
-          id="filterValue"
-        >
+        <span class="control-value" id="filterValue">
           100
         </span>
 
@@ -327,30 +240,22 @@
 
       <div class="control">
 
-        <label for="echo">
-          ECHO
-        </label>
+        <label for="echo">ECHO</label>
 
         <div class="knob-shell">
 
           <div class="knob-scale">
-
             <span class="scale-dot dot-1"></span>
             <span class="scale-dot dot-2"></span>
             <span class="scale-dot dot-3"></span>
             <span class="scale-dot dot-4"></span>
             <span class="scale-dot dot-5"></span>
-
           </div>
 
           <div class="knob-visual">
-
             <div class="knob-rotator">
-
               <span class="knob-indicator"></span>
-
             </div>
-
           </div>
 
           <input
@@ -364,10 +269,7 @@
 
         </div>
 
-        <span
-          class="control-value"
-          id="echoValue"
-        >
+        <span class="control-value" id="echoValue">
           0
         </span>
 
@@ -376,19 +278,11 @@
     </section>
 
 
-    <!-- =====================================
-         MODO 9 PADS
-         ===================================== -->
+    <!-- MODO 9 PADS -->
 
-    <section
-      id="bankMode"
-      class="mode-view"
-    >
+    <section id="bankMode" class="mode-view">
 
-      <section
-        class="pads"
-        id="bankPads"
-      >
+      <section class="pads" id="bankPads">
 
         <button class="pad" type="button"></button>
         <button class="pad" type="button"></button>
@@ -424,17 +318,9 @@
 
         </div>
 
-
         <div class="bank-display">
-
-          <span>
-            BANK
-          </span>
-
-          <strong id="bankNumber">
-            01
-          </strong>
-
+          <span>BANK</span>
+          <strong id="bankNumber">01</strong>
         </div>
 
       </section>
@@ -442,9 +328,7 @@
     </section>
 
 
-    <!-- =====================================
-         MODO 45 PADS
-         ===================================== -->
+    <!-- MODO 45 PADS -->
 
     <section
       id="wallMode"
@@ -452,31 +336,19 @@
     >
 
       <div class="wall-header">
-
-        <span>
-          45 PAD CONSOLE
-        </span>
-
-        <strong>
-          ALL SOUNDS
-        </strong>
-
+        <span>45 PAD CONSOLE</span>
+        <strong>ALL SOUNDS</strong>
       </div>
-
 
       <section
         id="wallPads"
         class="wall-pads"
-      >
-        <!-- JS crea los 45 pads -->
-      </section>
+      ></section>
 
     </section>
 
 
-    <!-- =====================================
-         CAMBIO DE MODO
-         ===================================== -->
+    <!-- CAMBIO DE MODO -->
 
     <section class="mode-panel">
 
@@ -490,11 +362,9 @@
 
     </section>
 
-
   </main>
 
-
-  <script src="app.js"></script>
+  <script src="./app.js"></script>
 
 </body>
 
